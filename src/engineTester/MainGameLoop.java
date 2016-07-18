@@ -75,8 +75,7 @@ public class MainGameLoop {
 		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
 
-		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture,
-				gTexture, bTexture);
+		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
 		// *****************************************
@@ -96,7 +95,7 @@ public class MainGameLoop {
 
 		fern.getTexture().setHasTransparency(true);
 
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+		Terrain terrain = new Terrain(5, -1, loader, texturePack, blendMap, "heightmap");
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		terrains.add(terrain);
 
@@ -210,7 +209,7 @@ public class MainGameLoop {
 				mousetrap = !mousetrap;
 				Mouse.setGrabbed(mousetrap);
 				keydown = true;
-				
+
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 				keydown = false;
 			}
