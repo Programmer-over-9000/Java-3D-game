@@ -22,12 +22,11 @@ public class Camera {
 	public void move(){
 		calculateZoom();
 		calculatePitch();
-		calculateAngleAroundPlayer();
 		float horizontalDistance = calculateHorizontalDistance();
 		float verticalDistance = calculateVerticalDistance();
 		calculateCameraPosition(horizontalDistance, verticalDistance);
-		this.yaw = 180 - (player.getRotY() + angleAroundPlayer);
-		yaw%=360;
+		this.yaw = 180- player.getRotY();
+		// yaw%=360;
 	}
 	
 	public void invertPitch(){
@@ -51,9 +50,8 @@ public class Camera {
 	}
 	
 	private void calculateCameraPosition(float horizDistance, float verticDistance){
-		float theta = player.getRotY() + angleAroundPlayer;
-		float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
-		float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(theta)));
+		float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(player.getRotY())));
+		float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(player.getRotY())));
 		position.x = player.getPosition().x - offsetX;
 		position.z = player.getPosition().z - offsetZ;
 		position.y = player.getPosition().y + verticDistance + 4;
@@ -86,13 +84,4 @@ public class Camera {
 			pitch = 90;
 		}
 	}
-	
-	private void calculateAngleAroundPlayer(){
-		float angleChange = Mouse.getDX() * 0.3f;
-		angleAroundPlayer -= angleChange;
-	}
-	
-	
-	
-
 }

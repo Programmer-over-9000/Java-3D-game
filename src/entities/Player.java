@@ -2,6 +2,7 @@ package entities;
 
 import models.TexturedModel;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -11,7 +12,7 @@ import terrains.Terrain;
 public class Player extends Entity {
 
 	private static final float RUN_SPEED = 40;
-	private static final float TURN_SPEED = 160;
+	private static final float TURN_SPEED = 35;
 	public static final float GRAVITY = -50;
 	private static final float JUMP_POWER = 18;
 
@@ -28,13 +29,15 @@ public class Player extends Entity {
 
 	public void move(Terrain terrain) {
 		checkInputs();
-		super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+		calculateAngleAroundPlayer();
+		// super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
 		float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
 		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
+		float dy = (float) (upwardsSpeed * DisplayManager.getFrameTimeSeconds());
 		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-		super.increasePosition(dx, 0, dz);
-		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
-		super.increasePosition(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+		super.increasePosition(dx, dy, dz);
+
 		float terrainHeight = terrain.getHeightOfTerrain(getPosition().x, getPosition().z);
 		if (super.getPosition().y < terrainHeight) {
 			upwardsSpeed = 0;
@@ -70,6 +73,10 @@ public class Player extends Entity {
 		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			jump();
 		}
+	}
+
+	private void calculateAngleAroundPlayer(){
+		setRotY( this.getRotY() - Mouse.getDX() * 0.3f);
 	}
 
 }

@@ -10,6 +10,8 @@ import models.TexturedModel;
 import normalMappingObjConverter.NormalMappedObjLoader;
 import objConverter.OBJFileLoader;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -200,8 +202,19 @@ public class MainGameLoop {
 		system.setScaleError(0.8f);
 		
 		//****************Game Loop Below*********************
-
+		Boolean mousetrap = true;
+		Boolean keydown = false;
+		Mouse.setGrabbed(mousetrap);
 		while (!Display.isCloseRequested()) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && keydown == false) {
+				mousetrap = !mousetrap;
+				Mouse.setGrabbed(mousetrap);
+				keydown = true;
+				
+			} else if (!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+				keydown = false;
+			}
+
 			player.move(terrain);
 			camera.move();
 			picker.update();
