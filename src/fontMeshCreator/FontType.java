@@ -2,13 +2,7 @@ package fontMeshCreator;
 
 import java.io.File;
 
-/**
- * Represents a font. It holds the font's texture atlas as well as having the
- * ability to create the quad vertices for any text using this font.
- * 
- * @author Karl
- *
- */
+
 public class FontType {
 
 	private int textureAtlas;
