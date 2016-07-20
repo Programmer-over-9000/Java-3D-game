@@ -9,12 +9,6 @@ import java.util.Map;
 
 import org.lwjgl.opengl.Display;
 
-/**
- * Provides functionality for getting the values from a font file.
- * 
- * @author Karl
- *
- */
 public class MetaFile {
 
 	private static final int PAD_TOP = 0;

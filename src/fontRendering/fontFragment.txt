@@ -23,7 +23,7 @@ void main(void) {
 	float alpha = 1.0 - smoothstep(width, width + edge, distance);
 	
 	float distance2 = 1.0 - texture(fontAtlas, pass_textureCoords + offset).a;
-	float outlineAlpha = 1.0 - smoothstep(borderWidth, borderWidth + borderEdge, distance2);
+	float outlineAlpha = -smoothstep(borderWidth, borderWidth + borderEdge, distance2);
 	
 	float overallAlpha = alpha + (1.0 - alpha) * outlineAlpha;
 	vec3 overallColour = mix(outlineColour, colour, alpha / overallAlpha);
