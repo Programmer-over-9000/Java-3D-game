@@ -30,31 +30,28 @@ public class Player extends Entity {
 	public void move(Terrain terrain) {
 		checkInputs();
 		calculateAngleAroundPlayer();
-		// super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-
-
-		float terrainHeight = terrain.getHeightOfTerrain(getPosition().x, getPosition().z);
-		// System.out.println("super"+super.getPosition().y);
-		// System.out.println("terrainHeight"+terrainHeight);
-		if (super.getPosition().y < -150) {
-			super.getPosition().y = terrainHeight+150;
-		}
-		System.out.println(super.getPosition());
-		System.out.println(400*Math.sin(Math.toRadians(super.getRotY())));
-		System.out.println(400*Math.cos(Math.toRadians(super.getRotY())));
-
-		if (super.getPosition().y < terrainHeight) {
-			upwardsSpeed = 0;
-			isInAir = false;
-			super.getPosition().y = terrainHeight;
-		}
-
 		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
 		float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
 		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
 		float dy = (float) (upwardsSpeed * DisplayManager.getFrameTimeSeconds());
 		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-		super.increasePosition(dx, dy, dz);	
+		// super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
+
+		float newx = super.getPosition().x + dx;
+		float newz = super.getPosition().z + dz;
+		float newy = terrain.getHeightOfTerrain(newx,newz);
+		// System.out.println(super.getPosition());
+		// System.out.println(newy);
+		if (newy - super.getPosition().y < 1f) {
+			super.increasePosition(dx, dy, dz);
+		}
+
+		float terrainHeight = terrain.getHeightOfTerrain(getPosition().x, getPosition().z);
+		if (super.getPosition().y < terrainHeight) {
+			upwardsSpeed = 0;
+			isInAir = false;
+			super.getPosition().y = terrainHeight;
+		}
 
 	}
 

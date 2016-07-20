@@ -64,7 +64,7 @@ public class MainGameLoop {
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		
 		FontType font = new FontType(loader.loadTexture("candara"), new File("res/candara.fnt"));
-		GUIText text = new GUIText("", 9, font, new Vector2f(0.0f, 0.0f), 1f, true);
+		GUIText text = new GUIText("test", 9, font, new Vector2f(0.0f, 0.0f), 1f, true);
 		text.setColour(0.1f, 0.1f, 0.1f);
 
 		// *********TERRAIN TEXTURE STUFF**********
@@ -207,7 +207,7 @@ public class MainGameLoop {
 				keydown = false;
 				if (mousetrap == true) {
 					player.move(terrain);
-					camera.move();
+					camera.move(water.getHeight());
 					picker.update();
 					GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 					

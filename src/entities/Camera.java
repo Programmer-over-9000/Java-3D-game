@@ -19,7 +19,13 @@ public class Camera {
 		this.player = player;
 	}
 	
-	public void move(){
+	public void move(float waterhight){
+		
+
+		if (this.getPosition().y < waterhight) {
+			
+		}
+
 		calculateZoom();
 		calculatePitch();
 		float horizontalDistance = calculateHorizontalDistance();

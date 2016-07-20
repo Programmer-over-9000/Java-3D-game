@@ -18,8 +18,8 @@ import toolbox.Maths;
 
 public class Terrain {
 
-	private static final float SIZE = 150;
-	private static final float MAX_HEIGHT = 40;
+	private static final float SIZE = 1000;
+	private static final float MAX_HEIGH = 25;
 	private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
 	private float x;
@@ -74,13 +74,9 @@ public class Terrain {
         float answer;
          
         if (xCoord <= (1-zCoord)) {
-            answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1,
-                            heights[gridX + 1][gridZ], 0), new Vector3f(0,
-                            heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+            answer = Maths.barryCentric(new Vector3f(0, heights[gridX][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
         } else {
-            answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1,
-                            heights[gridX + 1][gridZ + 1], 1), new Vector3f(0,
-                            heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
+            answer = Maths.barryCentric(new Vector3f(1, heights[gridX + 1][gridZ], 0), new Vector3f(1, heights[gridX + 1][gridZ + 1], 1), new Vector3f(0, heights[gridX][gridZ + 1], 1), new Vector2f(xCoord, zCoord));
         }
          
         return answer;
@@ -96,7 +92,8 @@ public class Terrain {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		int VERTEX_COUNT = 128;
+		// int VERTEX_COUNT = 128;
+		int VERTEX_COUNT = 248;
 
 		int count = VERTEX_COUNT * VERTEX_COUNT;
 		heights = new float[VERTEX_COUNT][VERTEX_COUNT];
