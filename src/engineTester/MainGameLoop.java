@@ -54,8 +54,7 @@ public class MainGameLoop {
 		TextMaster.init(loader);
 		
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
-		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(
-				loader.loadTexture("playerTexture")));
+		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture( loader.loadTexture("playerTexture")));
 
 		Player player = new Player(stanfordBunny, new Vector3f(75, 5, -75), 0, 100, 0, 0.6f);
 		
@@ -86,21 +85,18 @@ public class MainGameLoop {
 		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
 		fernTextureAtlas.setNumberOfRows(2);
 
-		TexturedModel fern = new TexturedModel(OBJFileLoader.loadOBJ("fern", loader),
-				fernTextureAtlas);
+		TexturedModel fern = new TexturedModel(OBJFileLoader.loadOBJ("fern", loader), fernTextureAtlas);
 
-		TexturedModel bobble = new TexturedModel(OBJFileLoader.loadOBJ("pine", loader),
-				new ModelTexture(loader.loadTexture("pine")));
+		TexturedModel bobble = new TexturedModel(OBJFileLoader.loadOBJ("pine", loader), new ModelTexture(loader.loadTexture("pine")));
 		bobble.getTexture().setHasTransparency(true);
 
 		fern.getTexture().setHasTransparency(true);
 
-		Terrain terrain = new Terrain(5, -1, loader, texturePack, blendMap, "heightmap");
+		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		terrains.add(terrain);
 
-		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader),
-				new ModelTexture(loader.loadTexture("lamp")));
+		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader), new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
 
 		List<Entity> entities = new ArrayList<Entity>();
@@ -108,20 +104,17 @@ public class MainGameLoop {
 		
 		//******************NORMAL MAP MODELS************************
 		
-		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader),
-				new ModelTexture(loader.loadTexture("barrel")));
+		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader), new ModelTexture(loader.loadTexture("barrel")));
 		barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
 		
-		TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader),
-				new ModelTexture(loader.loadTexture("crate")));
+		TexturedModel crateModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("crate", loader), new ModelTexture(loader.loadTexture("crate")));
 		crateModel.getTexture().setNormalMap(loader.loadTexture("crateNormal"));
 		crateModel.getTexture().setShineDamper(10);
 		crateModel.getTexture().setReflectivity(0.5f);
 		
-		TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader),
-			new ModelTexture(loader.loadTexture("boulder")));
+		TexturedModel boulderModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("boulder", loader), new ModelTexture(loader.loadTexture("boulder")));
 		boulderModel.getTexture().setNormalMap(loader.loadTexture("boulderNormal"));
 		boulderModel.getTexture().setShineDamper(10);
 		boulderModel.getTexture().setReflectivity(0.5f);
@@ -136,7 +129,8 @@ public class MainGameLoop {
 		normalMapEntities.add(entity2);
 		normalMapEntities.add(entity3);
 		
-		Random random = new Random(5666778);
+		// Random random = new Random(5666778);
+		Random random = new Random(5846328);
 		for (int i = 0; i < 60; i++) {
 			if (i % 3 == 0) {
 				float x = random.nextFloat() * 150;
@@ -206,51 +200,50 @@ public class MainGameLoop {
 		Mouse.setGrabbed(mousetrap);
 		while (!Display.isCloseRequested()) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && keydown == false) {
-				mousetrap = !mousetrap;
-				Mouse.setGrabbed(mousetrap);
-				keydown = true;
-
+					mousetrap = !mousetrap;
+					Mouse.setGrabbed(mousetrap);
+					keydown = true;
 			} else if (!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
 				keydown = false;
+				if (mousetrap == true) {
+					player.move(terrain);
+					camera.move();
+					picker.update();
+					GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+					
+					//system.generateParticles(entity.getPosition());
+					
+					ParticleMaster.update(camera);
+					
+					renderer.renderShadowMap(entities, sun);
+					
+					entity.increaseRotation(0, 1, 0);
+					entity2.increaseRotation(0, 1, 0);
+					entity3.increaseRotation(0, 1, 0);
+					GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+					
+					//render reflection teture
+					buffers.bindReflectionFrameBuffer();
+					float distance = 2 * (camera.getPosition().y - water.getHeight());
+					camera.getPosition().y -= distance;
+					camera.invertPitch();
+					renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, 1, 0, -water.getHeight()+1));
+					camera.getPosition().y += distance;
+					camera.invertPitch();
+					
+					//render refraction texture
+					buffers.bindRefractionFrameBuffer();
+					renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
+					
+					//render to screen
+					GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+					buffers.unbindCurrentFrameBuffer();	
+					renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 100000));	
+					waterRenderer.render(waters, camera, sun);
+					
+					ParticleMaster.rendererParticles(camera);
+				}
 			}
-
-			player.move(terrain);
-			camera.move();
-			picker.update();
-			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-			
-			//system.generateParticles(entity.getPosition());
-			
-			ParticleMaster.update(camera);
-			
-			renderer.renderShadowMap(entities, sun);
-			
-			entity.increaseRotation(0, 1, 0);
-			entity2.increaseRotation(0, 1, 0);
-			entity3.increaseRotation(0, 1, 0);
-			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-			
-			//render reflection teture
-			buffers.bindReflectionFrameBuffer();
-			float distance = 2 * (camera.getPosition().y - water.getHeight());
-			camera.getPosition().y -= distance;
-			camera.invertPitch();
-			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, 1, 0, -water.getHeight()+1));
-			camera.getPosition().y += distance;
-			camera.invertPitch();
-			
-			//render refraction texture
-			buffers.bindRefractionFrameBuffer();
-			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
-			
-			//render to screen
-			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
-			buffers.unbindCurrentFrameBuffer();	
-			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 100000));	
-			waterRenderer.render(waters, camera, sun);
-			
-			ParticleMaster.rendererParticles(camera);
-			
 			guiRenderer.render(guiTextures);
 			TextMaster.render();
 			

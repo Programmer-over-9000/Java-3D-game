@@ -1,0 +1,1 @@
+javac -d bin -cp "lib/jars/lwjgl.jar:lib/jars/lwjgl_util.jar:lib/jars/PNGDecoder.jar:lib/jars/slick-util.jar" src/*/*.java && java -Djava.library.path="lib/natives" -cp "bin:lib/jars/lwjgl.jar:lib/jars/lwjgl_util.jar:lib/jars/PNGDecoder.jar:lib/jars/slick-util.jar" engineTester.MainGameLoop

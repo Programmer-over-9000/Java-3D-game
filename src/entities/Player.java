@@ -20,7 +20,7 @@ public class Player extends Entity {
 	private float currentTurnSpeed = 0;
 	private float upwardsSpeed = 0;
 
-	private boolean isInAir = false;
+	private boolean isInAir = true;
 
 	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ,
 			float scale) {
@@ -31,19 +31,31 @@ public class Player extends Entity {
 		checkInputs();
 		calculateAngleAroundPlayer();
 		// super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
-		float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
-		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
-		float dy = (float) (upwardsSpeed * DisplayManager.getFrameTimeSeconds());
-		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-		super.increasePosition(dx, dy, dz);
+
 
 		float terrainHeight = terrain.getHeightOfTerrain(getPosition().x, getPosition().z);
+		// System.out.println("super"+super.getPosition().y);
+		// System.out.println("terrainHeight"+terrainHeight);
+		if (super.getPosition().y < -150) {
+			super.getPosition().y = terrainHeight+150;
+		}
+		System.out.println(super.getPosition());
+		System.out.println(400*Math.sin(Math.toRadians(super.getRotY())));
+		System.out.println(400*Math.cos(Math.toRadians(super.getRotY())));
+
 		if (super.getPosition().y < terrainHeight) {
 			upwardsSpeed = 0;
 			isInAir = false;
 			super.getPosition().y = terrainHeight;
 		}
+
+		upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
+		float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
+		float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
+		float dy = (float) (upwardsSpeed * DisplayManager.getFrameTimeSeconds());
+		float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
+		super.increasePosition(dx, dy, dz);	
+
 	}
 
 	private void jump() {
