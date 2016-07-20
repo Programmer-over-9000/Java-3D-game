@@ -48,8 +48,6 @@ import guis.GuiTexture;
 public class MainGameLoop {
 
 	public static void main(String[] args) {
-		glewExperimental = GL_TRUE;
-		glutInitContextVersion (3, 3);
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
