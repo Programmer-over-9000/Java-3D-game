@@ -19,12 +19,12 @@ public class Camera {
 		this.player = player;
 	}
 	
-	public void move(float waterhight){
+	public void move(float terrainHeight){
 		
 
-		if (this.getPosition().y < waterhight) {
+		// if (this.getPosition().y < waterhight) {
 			
-		}
+		// }
 
 		calculateZoom();
 		calculatePitch();
@@ -32,6 +32,11 @@ public class Camera {
 		float verticalDistance = calculateVerticalDistance();
 		calculateCameraPosition(horizontalDistance, verticalDistance);
 		this.yaw = 180- player.getRotY();
+
+		if (this.getPosition().y < terrainHeight) {
+			this.getPosition().y = terrainHeight;
+		}
+
 		// yaw%=360;
 	}
 	

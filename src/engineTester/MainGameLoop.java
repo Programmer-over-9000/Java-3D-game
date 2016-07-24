@@ -63,7 +63,7 @@ public class MainGameLoop {
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 		
 		FontType font = new FontType(loader.loadTexture("candara"), new File("res/candara.fnt"));
-		GUIText text = new GUIText("test", 9, font, new Vector2f(0.0f, 0.0f), 1f, true);
+		GUIText text = new GUIText("8===D", 9, font, new Vector2f(0.0f, 0.0f), 1f, true);
 		text.setColour(0.1f, 0.1f, 0.1f);
 
 		// *********TERRAIN TEXTURE STUFF**********
@@ -167,8 +167,9 @@ public class MainGameLoop {
 
 		List<GuiTexture> guiTextures = new ArrayList<GuiTexture>();
 		
-		//GuiTexture shadowMap = new GuiTexture(renderer.getShadowMaptexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
-		//guiTextures.add(shadowMap);
+		// GuiTexture shadowMap = new GuiTexture(renderer.getShadowMaptexture(), new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		// GuiTexture shadowMap = new GuiTexture(, new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		// guiTextures.add(shadowMap);
 		
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
@@ -206,7 +207,7 @@ public class MainGameLoop {
 				keydown = false;
 				if (mousetrap == true) {
 					player.move(terrain);
-					camera.move(water.getHeight());
+					camera.move(terrain.getHeightOfTerrain(camera.getPosition().x, camera.getPosition().z));
 					picker.update();
 					GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 					

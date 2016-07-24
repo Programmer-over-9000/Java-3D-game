@@ -17,7 +17,7 @@ public class DisplayManager {
 	private static long lastFrameTime;
 	private static float delta;
 	
-	public static void createDisplay(){	
+	public static void createDisplay(){
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.create(new PixelFormat());

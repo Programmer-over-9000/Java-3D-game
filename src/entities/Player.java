@@ -16,6 +16,8 @@ public class Player extends Entity {
 	public static final float GRAVITY = -50;
 	private static final float JUMP_POWER = 18;
 
+	private static final float OFSET = 0.01f;
+
 	private float currentSpeed = 0;
 	private float currentTurnSpeed = 0;
 	private float upwardsSpeed = 0;
@@ -52,6 +54,21 @@ public class Player extends Entity {
 			isInAir = false;
 			super.getPosition().y = terrainHeight;
 		}
+
+		// float terrainHeight = terrain.getHeightOfTerrain(getPosition().x, getPosition().z);
+		// float dx = (float) (0.1 * Math.sin(Math.toRadians(super.getRotY())));
+		// float dz = (float) (0 * Math.cos(Math.toRadians(super.getRotY())));
+		// float newx = super.getPosition().x + dx;
+		// float newz = super.getPosition().z + dz;
+		// float newy = terrain.getHeightOfTerrain(newx,newz);
+		
+		// System.out.println(terrain.getHeightOfTerrain(getPosition().x + OFSET, getPosition().z + OFSET));
+
+		// System.out.println(terrain.getHeightOfTerrain(getPosition().x + OFSET, getPosition().z - OFSET));
+
+		// System.out.println(terrain.getHeightOfTerrain(getPosition().x + OFSET, getPosition().z));
+
+		// System.out.println();
 
 	}
 
