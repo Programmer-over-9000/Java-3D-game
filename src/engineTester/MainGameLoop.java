@@ -268,8 +268,8 @@ public class MainGameLoop{
 						guiRenderer.cleanUp();
 						renderer.cleanUp();
 						loader.cleanUp();
-						DisplayManager.closeDisplay();
-						DisplayManager.createDisplay();
+						//isplayManager.closeDisplay();
+						//DisplayManager.createDisplay();
 						changeScreen = 2;
 					}
 
@@ -302,8 +302,8 @@ public class MainGameLoop{
 							TextMaster.cleanUp();
 							guiRenderer.cleanUp();
 							loader.cleanUp();
-							DisplayManager.closeDisplay();
-							DisplayManager.createDisplay();
+							//DisplayManager.closeDisplay();
+							//DisplayManager.createDisplay();
 							changeScreen = 1;
 						}
 				}
