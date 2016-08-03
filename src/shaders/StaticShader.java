@@ -56,7 +56,7 @@ public class StaticShader extends ShaderProgram{
 		location_numberOfRows = super.getUniformLocation("numberOfRows");
 		location_offset = super.getUniformLocation("offset");
 		location_plane = super.getUniformLocation("plane");
-		location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
+		location_toShadowMapSpace = super.getUniformLocation("shadowCoords");
 		
 		
 		location_lightPosition = new int[MAX_LIGHTS];
